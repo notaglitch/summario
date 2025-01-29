@@ -1,6 +1,7 @@
 architecture.txt
 .env
-./summario_env/
+summario_env
+summario_env
 audio.mp3
 *.txt
 *.json
