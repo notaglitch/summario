@@ -2,3 +2,10 @@ architecture.txt
 .env
 ./summario_env/
 audio.mp3
+*.txt
+*.json
+*.jsonl
+*.jsonl.gz
+*.jsonl.gz.part
+*.jsonl.gz.part.tmp
+*.jsonl.gz.part.tmp.part
