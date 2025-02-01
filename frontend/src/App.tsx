@@ -1,13 +1,15 @@
 import "./App.css";
-import "./components/LandingPage";
+import { Routes, Route } from "react-router-dom";
 import LandingPage from "./components/LandingPage";
+import FileUpload from "./components/FileUpload";
 
 function App() {
   return (
     <>
-      <div>
-        <LandingPage />
-      </div>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/upload" element={<FileUpload />} />
+      </Routes>
     </>
   );
 }
