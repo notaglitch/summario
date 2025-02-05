@@ -1,5 +1,9 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import axios from "axios";
+import Chat from './Chat';
+import TranscriptionOptions from './TranscriptionOptions';
+
+
 
 const FileUpload = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -13,6 +17,9 @@ const FileUpload = () => {
   const [isDragging, setIsDragging] = useState(false);
   const uploadRef = useRef<HTMLInputElement>(null);
   const transcriptionRef = useRef<HTMLDivElement>(null);
+  const [selectedOption, setSelectedOption] = useState<'chat' | 'summary' | 'questions' | 'quiz' | null>(null);
+  const [processingResult, setProcessingResult] = useState<string>('');
+  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
     if (transcription && transcription !== displayedTranscription) {
@@ -43,6 +50,9 @@ const FileUpload = () => {
     setProgress(0);
     setUploadComplete(false);
     setIsTranscribing(false);
+    setSelectedOption(null);
+    setProcessingResult('');
+    setIsProcessing(false);
   }, []);
 
   const handleFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -134,6 +144,24 @@ const FileUpload = () => {
       uploadRef.current.value = '';
     }
   }, [resetTranscription]);
+
+  const handleOptionSelect = async (option: 'chat' | 'summary' | 'questions' | 'quiz') => {
+    setSelectedOption(option);
+    setIsProcessing(true);
+    
+    try {
+      const response = await axios.post('http://localhost:5000/process', {
+        text: transcription,
+        option: option
+      });
+      
+      setProcessingResult(response.data.result);
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Failed to process request');
+    } finally {
+      setIsProcessing(false);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-900">
@@ -236,6 +264,38 @@ const FileUpload = () => {
               <span className="inline-block w-1.5 h-5 ml-1 bg-blue-400 animate-pulse" />
             )}
           </div>
+        </div>
+      )}
+
+      {displayedTranscription && !isTyping && (
+        <TranscriptionOptions 
+          transcription={transcription} 
+          onOptionSelect={handleOptionSelect}
+        />
+      )}
+
+      {selectedOption === 'chat' && !isProcessing && (
+        <div className="mt-6 w-full max-w-2xl">
+          <Chat context={transcription} />
+        </div>
+      )}
+
+      {selectedOption !== 'chat' && processingResult && (
+        <div className="mt-6 p-6 w-full max-w-2xl bg-gray-800 rounded-lg shadow-xl">
+          <h3 className="font-bold mb-3 text-xl text-gray-200">
+            {selectedOption === 'summary' ? 'Summary' :
+             selectedOption === 'questions' ? 'Study Questions' :
+             'Quiz'}
+          </h3>
+          <div className="text-gray-300 leading-relaxed whitespace-pre-line">
+            {processingResult}
+          </div>
+        </div>
+      )}
+
+      {isProcessing && (
+        <div className="mt-6 text-blue-400 animate-pulse">
+          Processing your request...
         </div>
       )}
 
