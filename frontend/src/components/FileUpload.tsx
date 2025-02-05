@@ -30,7 +30,7 @@ const FileUpload = () => {
           clearInterval(timer);
           setIsTyping(false);
         }
-      }, 10);
+      }, 1);
 
       return () => clearInterval(timer);
     }
