@@ -3,7 +3,7 @@ import { FaGithub } from "react-icons/fa"; // Importing GitHub icon
 
 const About = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen text-center px-4">
+    <div className="flex flex-col items-center justify-center min-h-screen text-center px-4 bg-gray-900 text-gray-200">
       <div className="max-w-2xl w-full">
         <h1 className="text-3xl font-bold mb-6">About Our Product</h1>
         <p className="mb-4 text-lg">
@@ -33,12 +33,12 @@ const About = () => {
           problems.
         </p>
         <a
-          href="https://github.com/notaglitch" // Replace with your GitHub username
+          href="https://github.com/notaglitch"
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-10 flex items-center justify-center text-blue-500 hover:underline"
+          className="mt-10 flex items-center justify-center text-blue-400 hover:text-blue-300 transition-colors"
         >
-          <FaGithub className="text-4xl" />{" "}
+          <FaGithub className="text-4xl" />
         </a>
       </div>
     </div>
