@@ -136,13 +136,13 @@ const FileUpload = () => {
   }, [resetTranscription]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4">
-      <h2 className="text-2xl font-bold mb-6 text-gray-500">Upload Audio File</h2>
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-900">
+      <h2 className="text-2xl font-bold mb-6 text-gray-200">Upload Audio File</h2>
       <div
         className={`border-2 border-dashed p-8 w-full max-w-md text-center rounded-lg transition-colors duration-200 ${
           isDragging
-            ? "border-blue-500 bg-blue-50"
-            : "border-gray-400 hover:border-blue-400"
+            ? "border-blue-500 bg-gray-800"
+            : "border-gray-600 hover:border-blue-400"
         }`}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
@@ -158,11 +158,11 @@ const FileUpload = () => {
         />
         <label
           htmlFor="file-upload"
-          className="cursor-pointer text-blue-600 hover:text-blue-700 font-medium"
+          className="cursor-pointer text-blue-400 hover:text-blue-300 font-medium"
         >
           <div className="flex flex-col items-center space-y-2">
             <svg
-              className="w-12 h-12 text-blue-500"
+              className="w-12 h-12 text-blue-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -174,8 +174,8 @@ const FileUpload = () => {
                 d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
               />
             </svg>
-            <span>Drag and drop audio file here or click to choose</span>
-            <span className="text-sm text-gray-500">
+            <span className="text-gray-300">Drag and drop audio file here or click to choose</span>
+            <span className="text-sm text-gray-400">
               Supported formats: MP3, WAV, M4A
             </span>
           </div>
@@ -185,25 +185,25 @@ const FileUpload = () => {
       {file && (
         <div className="mt-6 w-full max-w-md">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-sm text-gray-600">Selected file: {file.name}</p>
+            <p className="text-sm text-gray-300">Selected file: {file.name}</p>
             <button
               onClick={handleReset}
-              className="text-red-500 hover:text-red-700 text-sm"
+              className="text-red-400 hover:text-red-300 text-sm"
             >
               Remove
             </button>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-gray-700 rounded-full h-2">
             <div
               className="bg-blue-500 h-2 rounded-full transition-all duration-300"
               style={{ width: `${progress}%` }}
             />
           </div>
-          <div className="text-center text-sm text-gray-600 mt-1">
+          <div className="text-center text-sm text-gray-400 mt-1">
             {progress}%
           </div>
           {isTranscribing && (
-            <p className="text-blue-600 mt-2 text-center animate-pulse">
+            <p className="text-blue-400 mt-2 text-center animate-pulse">
               Generating transcription... This may take a few moments.
             </p>
           )}
@@ -212,7 +212,7 @@ const FileUpload = () => {
 
       <button
         onClick={handleUpload}
-        className="mt-6 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors duration-200 font-medium"
+        className="mt-6 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors duration-200 font-medium"
         disabled={!file || isTranscribing}
       >
         {isTranscribing
@@ -223,24 +223,24 @@ const FileUpload = () => {
       </button>
 
       {(displayedTranscription || isTyping) && (
-        <div className="mt-6 p-6 w-full max-w-2xl bg-white rounded-lg shadow-md">
-          <h3 className="font-bold mb-3 text-xl text-gray-500">
+        <div className="mt-6 p-6 w-full max-w-2xl bg-gray-800 rounded-lg shadow-xl">
+          <h3 className="font-bold mb-3 text-xl text-gray-200">
             Transcription
           </h3>
           <div 
             ref={transcriptionRef}
-            className="text-gray-700 leading-relaxed max-h-96 overflow-y-auto"
+            className="text-gray-300 leading-relaxed max-h-96 overflow-y-auto"
           >
             {displayedTranscription}
             {isTyping && (
-              <span className="inline-block w-1.5 h-5 ml-1 bg-blue-600 animate-pulse" />
+              <span className="inline-block w-1.5 h-5 ml-1 bg-blue-400 animate-pulse" />
             )}
           </div>
         </div>
       )}
 
       {error && (
-        <div className="mt-6 p-4 w-full max-w-md bg-red-50 border border-red-200 text-red-700 rounded-lg">
+        <div className="mt-6 p-4 w-full max-w-md bg-red-900/50 border border-red-700 text-red-300 rounded-lg">
           <div className="flex items-center">
             <svg
               className="w-5 h-5 mr-2"
