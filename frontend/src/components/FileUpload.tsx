@@ -12,6 +12,7 @@ const FileUpload = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const uploadRef = useRef<HTMLInputElement>(null);
+  const transcriptionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (transcription && transcription !== displayedTranscription) {
@@ -21,11 +22,15 @@ const FileUpload = () => {
         if (index < transcription.length) {
           setDisplayedTranscription((prev) => prev + transcription[index]);
           index++;
+          
+          if (transcriptionRef.current) {
+            transcriptionRef.current.scrollTop = transcriptionRef.current.scrollHeight;
+          }
         } else {
           clearInterval(timer);
           setIsTyping(false);
         }
-      }, 35);
+      }, 10);
 
       return () => clearInterval(timer);
     }
@@ -222,7 +227,10 @@ const FileUpload = () => {
           <h3 className="font-bold mb-3 text-xl text-gray-500">
             Transcription
           </h3>
-          <div className="text-white leading-relaxed">
+          <div 
+            ref={transcriptionRef}
+            className="text-gray-700 leading-relaxed max-h-96 overflow-y-auto"
+          >
             {displayedTranscription}
             {isTyping && (
               <span className="inline-block w-1.5 h-5 ml-1 bg-blue-600 animate-pulse" />
